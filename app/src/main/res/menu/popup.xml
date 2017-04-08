@@ -3,8 +3,8 @@
         android:id="@+id/C"
         android:title="C"/>
     <item
-        android:id="@+id/CArtı"
-        android:title="C++"/>
+        android:id="@+id/C++"
+        android:title="C++" />
     <item
         android:id="@+id/All"
         android:title="All"/>
