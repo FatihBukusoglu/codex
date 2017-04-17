@@ -10,10 +10,11 @@
     tools:context="foreign_number.codex.MainMenu">
 
     <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:background="@android:color/background_light" />
+        android:background="@android:color/background_light"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/search_button"
