@@ -69,7 +69,7 @@ public class MainMenu extends AppCompatActivity{
                    public boolean onMenuItemClick(MenuItem item){
                        choosen_Language = item.getTitle().toString();
                        languageButton.setText(item.getTitle().toString());
-                       Toast.makeText(MainMenu.this,"Search Results For: " +item.getTitle(),Toast.LENGTH_SHORT).show();
+                       Toast.makeText(MainMenu.this,"Choosen Language: " +item.getTitle(),Toast.LENGTH_SHORT).show();
                        return true;
                    }
                });
