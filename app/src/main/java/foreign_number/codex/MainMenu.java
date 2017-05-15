@@ -1,5 +1,7 @@
 package foreign_number.codex;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +12,12 @@ import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +32,10 @@ public class MainMenu extends AppCompatActivity{
     Button mSearchButton;
     Button languageButton;
     String choosen_Word = " ",choosen_Language = " ";
+    private Button mLogOutBtn;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
 
     //Get Database Referance
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -33,15 +45,34 @@ public class MainMenu extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                if(firebaseAuth.getCurrentUser() == null){
+                    startActivity(new Intent(MainMenu.this, LoginActivity.class));
+
+                }
+            }
+        };
+
         //Get UI elements
         mDiscriptionView = (TextView) findViewById(R.id.result);
         languageButton = (Button)findViewById(R.id.language_button);
         mSearchButton = (Button) findViewById(R.id.search_button);
         mSearchBar = (SearchView) findViewById(R.id.searchView);
+        mLogOutBtn = (Button) findViewById(R.id.log_out);
 
+        //Log Out
+        mLogOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+            }
+        });
 
         //Search Bar
-
         mSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -54,7 +85,7 @@ public class MainMenu extends AppCompatActivity{
                 choosen_Word = newText.toString();
                 return false;
             }
-        });
+        }   );
 
         //Language Menu
        languageButton.setOnClickListener(new OnClickListener() {
@@ -102,4 +133,10 @@ public class MainMenu extends AppCompatActivity{
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 }
