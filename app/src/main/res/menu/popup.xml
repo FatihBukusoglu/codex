@@ -5,11 +5,4 @@
     <item
         android:id="@+id/CArti"
         android:title="C++" />
-    <item
-        android:id="@+id/General"
-        android:title="General" />
-    <item
-        android:id="@+id/OOP"
-        android:title="OOP" />
-
 </menu>
